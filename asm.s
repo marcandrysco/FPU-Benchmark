@@ -59,75 +59,75 @@ enddaz:
 	jmp	error
 
 noop:
-	rdtsc
+	rdtscp
 	mov	edi,eax
-	rdtsc
+	rdtscp
 	sub	eax,edi
 	jmp	end
 
 x87_add:
-	rdtsc
+	rdtscp
 	mov	edi,eax
 	fld	QWORD PTR [v0]
 	fld	QWORD PTR [v1]
 	faddp	st(1)
 	fstp	QWORD PTR [store]
-	rdtsc
+	rdtscp
 	sub	eax,edi
 	jmp	end
 
 x87_mul:
-	rdtsc
+	rdtscp
 	mov	edi,eax
 	fld	QWORD PTR [v0]
 	fld	QWORD PTR [v1]
 	fmulp	st(1)
 	fstp	QWORD PTR [store]
-	rdtsc
+	rdtscp
 	sub	eax,edi
 	jmp	end
 
 x87_div:
-	rdtsc
+	rdtscp
 	mov	edi,eax
 	fld	QWORD PTR [v0]
 	fld	QWORD PTR [v1]
 	fdivp	st(1)
 	fstp	QWORD PTR [store]
-	rdtsc
+	rdtscp
 	sub	eax,edi
 	jmp	end
 
 sse_add:
-	rdtsc
+	rdtscp
 	mov	edi,eax
 	movsd	xmm0,QWORD PTR [v0]
 	movsd	xmm1,QWORD PTR [v1]
 	addsd	xmm0,xmm1
 	movsd	QWORD PTR [store],xmm0
-	rdtsc
+	rdtscp
 	sub	eax,edi
 	jmp	end
 
 sse_mul:
-	rdtsc
+	rdtscp
 	mov	edi,eax
 	movsd	xmm0,QWORD PTR [v0]
 	movsd	xmm1,QWORD PTR [v1]
 	mulsd	xmm0,xmm1
 	movsd	QWORD PTR [store],xmm0
-	rdtsc
+	rdtscp
 	sub	eax,edi
 	jmp	end
 
 sse_div:
-	rdtsc
+	rdtscp
 	mov	edi,eax
 	movsd	xmm0,QWORD PTR [v0]
 	movsd	xmm1,QWORD PTR [v1]
 	divsd	xmm0,xmm1
 	movsd	QWORD PTR [store],xmm0
-	rdtsc
+	rdtscp
 	sub	eax,edi
 	jmp	end
 
