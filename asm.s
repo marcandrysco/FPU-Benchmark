@@ -6,8 +6,11 @@
 
 ctrl:	.int 0
 v0:	.double 0.0
+	.double 0.0
 v1:	.double 0.0
+	.double 0.0
 store:	.double 0.0
+	.double 0.0
 
 	.text
 
@@ -55,6 +58,12 @@ enddaz:
 	je	sse_mul
 	cmp	esi,6
 	je	sse_div
+	cmp	esi,7
+	je	addpd
+	cmp	esi,8
+	je	mulpd
+	cmp	esi,9
+	je	divpd
 
 	jmp	error
 
@@ -127,6 +136,39 @@ sse_div:
 	movsd	xmm1,QWORD PTR [v1]
 	divsd	xmm0,xmm1
 	movsd	QWORD PTR [store],xmm0
+	rdtscp
+	sub	eax,edi
+	jmp	end
+
+addpd:
+	rdtscp
+	mov	edi,eax
+	movupd	xmm0,OWORD PTR [v0]
+	movupd	xmm1,OWORD PTR [v1]
+	addpd	xmm0,xmm1
+	movupd	OWORD PTR [store],xmm0
+	rdtscp
+	sub	eax,edi
+	jmp	end
+
+mulpd:
+	rdtscp
+	mov	edi,eax
+	movupd	xmm0,OWORD PTR [v0]
+	movupd	xmm1,OWORD PTR [v1]
+	mulpd	xmm0,xmm1
+	movupd	OWORD PTR [store],xmm0
+	rdtscp
+	sub	eax,edi
+	jmp	end
+
+divpd:
+	rdtscp
+	mov	edi,eax
+	movupd	xmm0,OWORD PTR [v0]
+	movupd	xmm1,OWORD PTR [v1]
+	divpd	xmm0,xmm1
+	movupd	OWORD PTR [store],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end

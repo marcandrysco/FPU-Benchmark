@@ -2,7 +2,7 @@
 #include <math.h>
 
 #define FLAGS	4
-#define OPS	7
+#define OPS	(sizeof(op) / sizeof(op[0]))
 #define VALS	5
 #define RUNS	1000
 #define DROP	(RUNS/10)
@@ -18,12 +18,15 @@ const char *flags[] = {
 
 const char *op[] = {
 	"noop",
-	"x87_add",
-	"x87_mul",
-	"x87_div",
-	"sse_add",
-	"sse_mul",
-	"sse_div",
+	"fadd",
+	"fmul",
+	"fdiv",
+	"addsd",
+	"mulsd",
+	"divsd",
+	"addpd",
+	"mulpd",
+	"divpd",
 };
 
 const char *type[] = {

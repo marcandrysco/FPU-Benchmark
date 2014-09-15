@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Benchmark Data</title>
+  <link rel="stylesheet" type="text/css" href="data.css" />
+</head>
+
+<body>
+
+<h2>Benchmark Data</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th><a href="#" onclick="return sort(0, this)">Flags &#x25be;</a> <input size="4" onkeyup="change(0, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(1, this)">Instr &#x25be;</a> <input size="4" onkeyup="change(1, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(2, this)">Op 1 &#x25be;</a> <input size="4" onkeyup="change(2, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(3, this)">Op 2 &#x25be;</a> <input size="4" onkeyup="change(3, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(4, this)">Cycles &#x25be;</a> <input size="4" onkeyup="change(4, this)" type="text"></th>
+    </tr>
+  </thead>
+  <tbody id="table">
+  </tbody>
+</table>
+
+<script src="data.js"></script>
+
+</body>
+
+</html>

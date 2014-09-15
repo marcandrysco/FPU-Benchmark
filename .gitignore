@@ -1,0 +1,15 @@
+# vim files
+*.swp
+*.swo
+
+# built files
+*.o
+*.bz2
+*.log
+
+# build files
+Makefile
+bench
+
+# helper scripts
+run.sh
