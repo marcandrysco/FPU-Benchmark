@@ -1,7 +1,22 @@
 var data = {};
-var filter = ["", "", "", "", "", ""];
-var rev = [false, false, false, false, false, ""]
+var filter = ["", "", "", "", "", "", ""];
+var rev = [false, false, false, false, false, false, false]
 var last = -1;
+
+function reload() {
+	xmlreq("run.log", function(log) {
+		data = log.split("\n");
+		while(data[data.length - 1] == "") {
+			data.pop();
+		}
+
+		for(var i = 0; i < data.length; i++) {
+			data[i] = data[i].split("\t");
+		}
+
+		redraw();
+	});
+}
 
 function sort(idx, el) {
 	if(idx == last) {
@@ -73,19 +88,6 @@ function redraw() {
 	}
 }
 
-window.onload = function() {
-	xmlreq("run.log", function(log) {
-		data = log.split("\n");
-		while(data[data.length - 1] == "") {
-			data.pop();
-		}
-
-		for(var i = 0; i < data.length; i++) {
-			data[i] = data[i].split("\t");
-		}
-
-		redraw();
-	});
-};
+window.onload = function() { reload(); };
 
 redraw();

@@ -12,12 +12,16 @@
 <table>
   <thead>
     <tr>
+      <th class="reload" colspan="7"><a href="#" onclick="return reload()">&#x21bb; Refresh</a></th>
+    </tr>
+    <tr>
       <th><a href="#" onclick="return sort(0, this)">CPU &#x25be;</a> <input size="4" onkeyup="change(0, this)" type="text"></th>
-      <th><a href="#" onclick="return sort(1, this)">Flags &#x25be;</a> <input size="4" onkeyup="change(0, this)" type="text"></th>
-      <th><a href="#" onclick="return sort(2, this)">Instr &#x25be;</a> <input size="4" onkeyup="change(1, this)" type="text"></th>
-      <th><a href="#" onclick="return sort(3, this)">Op 1 &#x25be;</a> <input size="4" onkeyup="change(2, this)" type="text"></th>
-      <th><a href="#" onclick="return sort(4, this)">Op 2 &#x25be;</a> <input size="4" onkeyup="change(3, this)" type="text"></th>
-      <th><a href="#" onclick="return sort(5, this)">Cycles &#x25be;</a> <input size="4" onkeyup="change(4, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(1, this)">Flags &#x25be;</a> <input size="4" onkeyup="change(1, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(2, this)">Instr &#x25be;</a> <input size="4" onkeyup="change(2, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(3, this)">Op 1 &#x25be;</a> <input size="4" onkeyup="change(3, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(4, this)">Op 2 &#x25be;</a> <input size="4" onkeyup="change(4, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(5, this)">Cycles &#x25be;</a> <input size="4" onkeyup="change(5, this)" type="text"></th>
+      <th><a href="#" onclick="return sort(6, this)">Ratio &#x25be;</a> <input size="4" onkeyup="change(6, this)" type="text"></th>
     </tr>
   </thead>
   <tbody id="table">

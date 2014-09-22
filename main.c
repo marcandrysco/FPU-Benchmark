@@ -8,7 +8,7 @@
 #define DROP	(RUNS/10)
 
 void cpuid(unsigned long, char *);
-int runtest(int, int, double, double);
+int runtest(int, int, double, double, float, float);
 
 const char *flags[] = {
 	"none",
@@ -19,9 +19,12 @@ const char *flags[] = {
 
 const char *op[] = {
 	"noop",
-	"fadd",
-	"fmul",
-	"fdiv",
+	"fadd-d",
+	"fmul-d",
+	"fdiv-d",
+	"fadd-s",
+	"fmul-s",
+	"fdiv-s",
 	"addsd",
 	"mulsd",
 	"divsd",
@@ -84,7 +87,7 @@ int main()
 			for(j = 0; j < OPS; j++) {
 				for(k = 0; k < VALS; k++) {
 					for(l = 0; l < VALS; l++) {
-						res[i][j][k][l][r] = runtest(i, j, val[k], val[l]);
+						res[i][j][k][l][r] = runtest(i, j, val[k], val[l], val[k], val[l]);
 					}
 				}
 			}
@@ -110,7 +113,7 @@ int main()
 
 	for(i = 0; i < FLAGS; i++) {
 		for(j = 0; j < OPS; j++) {
-			if(i > 0 && j < 4)
+			if(i > 0 && j < 7)
 				continue;
 
 			for(k = 0; k < VALS; k++) {
@@ -118,7 +121,7 @@ int main()
 					if(j == 0 && (k != 0 || l != 0))
 						continue;
 
-					printf("%s\t%s\t%s\t%s\t%s\t%u\n", cpu, flags[i], op[j], type[k], type[l], res[i][j][k][l][0]);
+					printf("%s\t%s\t%s\t%s\t%s\t%u\t%.2f\n", cpu, flags[i], op[j], type[k], type[l], res[i][j][k][l][0], res[i][j][k][l][0] / (double)res[0][0][0][0][0]);
 				}
 			}
 		}
