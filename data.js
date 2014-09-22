@@ -1,6 +1,6 @@
 var data = {};
-var filter = ["", "", "", "", ""];
-var rev = [false, false, false, false, false]
+var filter = ["", "", "", "", "", ""];
+var rev = [false, false, false, false, false, ""]
 var last = -1;
 
 function sort(idx, el) {
@@ -65,11 +65,10 @@ function redraw() {
 			continue;
 
 		var row = document.createElement("tr");
-		row.appendChild(mkcol(data[i][0]));
-		row.appendChild(mkcol(data[i][1]));
-		row.appendChild(mkcol(data[i][2]));
-		row.appendChild(mkcol(data[i][3]));
-		row.appendChild(mkcol(data[i][4]));
+
+		for(var j = 0; j < data[i].length; j++)
+			row.appendChild(mkcol(data[i][j]));
+
 		table.appendChild(row);
 	}
 }

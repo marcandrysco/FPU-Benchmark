@@ -7,6 +7,7 @@
 #define RUNS	1000
 #define DROP	(RUNS/10)
 
+void cpuid(unsigned long, char *);
 int runtest(int, int, double, double);
 
 const char *flags[] = {
@@ -27,12 +28,19 @@ const char *op[] = {
 	"addpd",
 	"mulpd",
 	"divpd",
+	"addss",
+	"mulss",
+	"divss",
+	"addps",
+	"mulps",
+	"divps",
 };
 
 const char *type[] = {
 	"zero",
 	"num",
-	"sub",
+	"subs",
+	"subd",
 	"inf",
 	"nan"
 };
@@ -40,6 +48,7 @@ const char *type[] = {
 double val[] = {
 	0.0,
 	1.2,
+	1e-42,
 	1e-320,
 	INFINITY,
 	NAN
@@ -57,8 +66,17 @@ static int sort(const void *left, const void *right)
 
 int main()
 {
+	char buf[128], *cpu;
 	int r, i, j, k, l;
 	int res[FLAGS][OPS][VALS][VALS][RUNS];
+
+	cpuid(0x80000002, buf);
+	cpuid(0x80000003, buf + 16);
+	cpuid(0x80000004, buf + 32);
+
+	cpu = buf;
+	while(*cpu == ' ')
+		cpu++;
 
 	for(r = 0; r < RUNS; r++) {
 		for(i = 0; i < FLAGS; i++) {
@@ -99,7 +117,7 @@ int main()
 					if(j == 0 && (k != 0 || l != 0))
 						continue;
 
-					printf("%s\t%s\t%s\t%s\t%u\n", flags[i], op[j], type[k], type[l], res[i][j][k][l][0]);
+					printf("%s\t%s\t%s\t%s\t%s\t%u\n", cpu, flags[i], op[j], type[k], type[l], res[i][j][k][l][0]);
 				}
 			}
 		}
