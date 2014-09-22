@@ -265,10 +265,10 @@ divpd:
 addss:
 	rdtscp
 	mov	edi,eax
-	movsd	xmm0,QWORD PTR [v0]
-	movsd	xmm1,QWORD PTR [v1]
+	movss	xmm0,DWORD PTR [v0s]
+	movss	xmm1,DWORD PTR [v1s]
 	addss	xmm0,xmm1
-	movsd	QWORD PTR [store],xmm0
+	movss	DWORD PTR [stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -287,10 +287,10 @@ mulss:
 divss:
 	rdtscp
 	mov	edi,eax
-	movsd	xmm0,QWORD PTR [v0]
-	movsd	xmm1,QWORD PTR [v1]
+	movss	xmm0,DWORD PTR [v0s]
+	movss	xmm1,DWORD PTR [v1s]
 	divss	xmm0,xmm1
-	movsd	QWORD PTR [store],xmm0
+	movss	DWORD PTR [stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -309,10 +309,10 @@ addps:
 mulps:
 	rdtscp
 	mov	edi,eax
-	movups	xmm0,OWORD PTR [v0]
-	movups	xmm1,OWORD PTR [v1]
+	movups	xmm0,OWORD PTR [v0s]
+	movups	xmm1,OWORD PTR [v1s]
 	mulps	xmm0,xmm1
-	movups	OWORD PTR [store],xmm0
+	movups	OWORD PTR [stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -320,10 +320,10 @@ mulps:
 divps:
 	rdtscp
 	mov	edi,eax
-	movups	xmm0,OWORD PTR [v0]
-	movups	xmm1,OWORD PTR [v1]
+	movups	xmm0,OWORD PTR [v0s]
+	movups	xmm1,OWORD PTR [v1s]
 	divps	xmm0,xmm1
-	movups	OWORD PTR [store],xmm0
+	movups	OWORD PTR [stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
