@@ -15,7 +15,7 @@ asm.o: asm.s Makefile
 dist:
 	if [ -e bench.dist ] ; then rm -rf bench.dist ; fi
 	mkdir bench.dist
-	cp Makefile main.c data.html data.css data.js bench.dist/
+	cp Makefile asm.s main.c data.html data.css data.js bench.dist/
 	tar -jcvf bench.dist.tar.bz2 bench.dist
 	rm -rf bench.dist
 

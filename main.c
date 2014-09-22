@@ -73,6 +73,7 @@ int main()
 	cpuid(0x80000002, buf);
 	cpuid(0x80000003, buf + 16);
 	cpuid(0x80000004, buf + 32);
+	buf[48] = '\0';
 
 	cpu = buf;
 	while(*cpu == ' ')
