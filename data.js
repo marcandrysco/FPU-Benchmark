@@ -16,6 +16,8 @@ function reload() {
 
 		redraw();
 	});
+
+	return false;
 }
 
 function sort(idx, el) {
