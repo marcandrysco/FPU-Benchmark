@@ -8,8 +8,8 @@
 #define RUNS	1000
 #define DROP	(RUNS/10)
 
-void cpuid(unsigned long, char *);
-int runtest(int, int, double, double, float, float);
+extern void cpuid(unsigned long, char *) asm("cpuid");
+extern int runtest(int, int, double, double, float, float) asm("runtest");
 
 const char *flags[] = {
 	"none",

@@ -5,7 +5,6 @@
 
 	.data
 
-ctrl:	.int 0
 v0:	.double 0.0
 	.double 0.0
 v0s:	.single 0.0
@@ -37,44 +36,44 @@ cpuid:
 	ret
 
 runtest:
-	movsd	QWORD PTR [v0+0],xmm0
-	movsd	QWORD PTR [v0+8],xmm0
-	movsd	QWORD PTR [v1+0],xmm1
-	movsd	QWORD PTR [v1+8],xmm1
-	movss	DWORD PTR [v0s+0],xmm2
-	movss	DWORD PTR [v0s+4],xmm2
-	movss	DWORD PTR [v0s+8],xmm2
-	movss	DWORD PTR [v0s+12],xmm2
-	movss	DWORD PTR [v1s+0],xmm3
-	movss	DWORD PTR [v1s+4],xmm3
-	movss	DWORD PTR [v1s+8],xmm3
-	movss	DWORD PTR [v1s+16],xmm3
+	movsd	QWORD PTR [rip+v0+0],xmm0
+	movsd	QWORD PTR [rip+v0+8],xmm0
+	movsd	QWORD PTR [rip+v1+0],xmm1
+	movsd	QWORD PTR [rip+v1+8],xmm1
+	movss	DWORD PTR [rip+v0s+0],xmm2
+	movss	DWORD PTR [rip+v0s+4],xmm2
+	movss	DWORD PTR [rip+v0s+8],xmm2
+	movss	DWORD PTR [rip+v0s+12],xmm2
+	movss	DWORD PTR [rip+v1s+0],xmm3
+	movss	DWORD PTR [rip+v1s+4],xmm3
+	movss	DWORD PTR [rip+v1s+8],xmm3
+	movss	DWORD PTR [rip+v1s+16],xmm3
 
-	stmxcsr	DWORD PTR [ctrl]
+	stmxcsr	DWORD PTR [rsp-4]
 	cmp	edi,1
 	je	ftz
 	cmp	edi,3
 	je	ftz
 noftz:
-	and	DWORD PTR [ctrl],0x7FFF
+	and	DWORD PTR [rsp-4],0x7FFF
 	jmp	endftz
 ftz:
-	or	DWORD PTR [ctrl],0x8000
+	or	DWORD PTR [rsp-4],0x8000
 endftz:
-	ldmxcsr	DWORD PTR [ctrl]
+	ldmxcsr	DWORD PTR [rsp-4]
 
-	stmxcsr	DWORD PTR [ctrl]
+	stmxcsr	DWORD PTR [rsp-4]
 	cmp	edi,2
 	je	daz
 	cmp	edi,3
 	je	daz
 nodaz:
-	and	DWORD PTR [ctrl],0xFFBF
+	and	DWORD PTR [rsp-4],0xFFBF
 	jmp	enddaz
 daz:
-	or	DWORD PTR [ctrl],0x0040
+	or	DWORD PTR [rsp-4],0x0040
 enddaz:
-	ldmxcsr	DWORD PTR [ctrl]
+	ldmxcsr	DWORD PTR [rsp-4]
 
 	cmp	esi,0
 	je	noop
@@ -133,10 +132,10 @@ noop:
 faddd:
 	rdtscp
 	mov	edi,eax
-	fld	QWORD PTR [v0]
-	fld	QWORD PTR [v1]
+	fld	QWORD PTR [rip+v0]
+	fld	QWORD PTR [rip+v1]
 	faddp	st(1)
-	fstp	QWORD PTR [store]
+	fstp	QWORD PTR [rip+store]
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -144,10 +143,10 @@ faddd:
 fmuld:
 	rdtscp
 	mov	edi,eax
-	fld	QWORD PTR [v0]
-	fld	QWORD PTR [v1]
+	fld	QWORD PTR [rip+v0]
+	fld	QWORD PTR [rip+v1]
 	fmulp	st(1)
-	fstp	QWORD PTR [store]
+	fstp	QWORD PTR [rip+store]
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -155,10 +154,10 @@ fmuld:
 fdivd:
 	rdtscp
 	mov	edi,eax
-	fld	QWORD PTR [v0]
-	fld	QWORD PTR [v1]
+	fld	QWORD PTR [rip+v0]
+	fld	QWORD PTR [rip+v1]
 	fdivp	st(1)
-	fstp	QWORD PTR [store]
+	fstp	QWORD PTR [rip+store]
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -166,10 +165,10 @@ fdivd:
 fadds:
 	rdtscp
 	mov	edi,eax
-	fld	DWORD PTR [v0s]
-	fld	DWORD PTR [v1s]
+	fld	DWORD PTR [rip+v0s]
+	fld	DWORD PTR [rip+v1s]
 	faddp	st(1)
-	fstp	DWORD PTR [stores]
+	fstp	DWORD PTR [rip+stores]
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -177,10 +176,10 @@ fadds:
 fmuls:
 	rdtscp
 	mov	edi,eax
-	fld	DWORD PTR [v0s]
-	fld	DWORD PTR [v1s]
+	fld	DWORD PTR [rip+v0s]
+	fld	DWORD PTR [rip+v1s]
 	fmulp	st(1)
-	fstp	DWORD PTR [stores]
+	fstp	DWORD PTR [rip+stores]
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -188,10 +187,10 @@ fmuls:
 fdivs:
 	rdtscp
 	mov	edi,eax
-	fld	DWORD PTR [v0s]
-	fld	DWORD PTR [v1s]
+	fld	DWORD PTR [rip+v0s]
+	fld	DWORD PTR [rip+v1s]
 	fdivp	st(1)
-	fstp	DWORD PTR [stores]
+	fstp	DWORD PTR [rip+stores]
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -199,10 +198,10 @@ fdivs:
 addsd:
 	rdtscp
 	mov	edi,eax
-	movsd	xmm0,QWORD PTR [v0]
-	movsd	xmm1,QWORD PTR [v1]
+	movsd	xmm0,QWORD PTR [rip+v0]
+	movsd	xmm1,QWORD PTR [rip+v1]
 	addsd	xmm0,xmm1
-	movsd	QWORD PTR [store],xmm0
+	movsd	QWORD PTR [rip+store],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -210,10 +209,10 @@ addsd:
 mulsd:
 	rdtscp
 	mov	edi,eax
-	movsd	xmm0,QWORD PTR [v0]
-	movsd	xmm1,QWORD PTR [v1]
+	movsd	xmm0,QWORD PTR [rip+v0]
+	movsd	xmm1,QWORD PTR [rip+v1]
 	mulsd	xmm0,xmm1
-	movsd	QWORD PTR [store],xmm0
+	movsd	QWORD PTR [rip+store],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -221,10 +220,10 @@ mulsd:
 divsd:
 	rdtscp
 	mov	edi,eax
-	movsd	xmm0,QWORD PTR [v0]
-	movsd	xmm1,QWORD PTR [v1]
+	movsd	xmm0,QWORD PTR [rip+v0]
+	movsd	xmm1,QWORD PTR [rip+v1]
 	divsd	xmm0,xmm1
-	movsd	QWORD PTR [store],xmm0
+	movsd	QWORD PTR [rip+store],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -232,10 +231,10 @@ divsd:
 addpd:
 	rdtscp
 	mov	edi,eax
-	movupd	xmm0,XMMWORD PTR [v0]
-	movupd	xmm1,XMMWORD PTR [v1]
+	movupd	xmm0,XMMWORD PTR [rip+v0]
+	movupd	xmm1,XMMWORD PTR [rip+v1]
 	addpd	xmm0,xmm1
-	movupd	XMMWORD PTR [store],xmm0
+	movupd	XMMWORD PTR [rip+store],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -243,10 +242,10 @@ addpd:
 mulpd:
 	rdtscp
 	mov	edi,eax
-	movupd	xmm0,XMMWORD PTR [v0]
-	movupd	xmm1,XMMWORD PTR [v1]
+	movupd	xmm0,XMMWORD PTR [rip+v0]
+	movupd	xmm1,XMMWORD PTR [rip+v1]
 	mulpd	xmm0,xmm1
-	movupd	XMMWORD PTR [store],xmm0
+	movupd	XMMWORD PTR [rip+store],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -254,10 +253,10 @@ mulpd:
 divpd:
 	rdtscp
 	mov	edi,eax
-	movupd	xmm0,XMMWORD PTR [v0]
-	movupd	xmm1,XMMWORD PTR [v1]
+	movupd	xmm0,XMMWORD PTR [rip+v0]
+	movupd	xmm1,XMMWORD PTR [rip+v1]
 	divpd	xmm0,xmm1
-	movupd	XMMWORD PTR [store],xmm0
+	movupd	XMMWORD PTR [rip+store],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -265,10 +264,10 @@ divpd:
 addss:
 	rdtscp
 	mov	edi,eax
-	movss	xmm0,DWORD PTR [v0s]
-	movss	xmm1,DWORD PTR [v1s]
+	movss	xmm0,DWORD PTR [rip+v0s]
+	movss	xmm1,DWORD PTR [rip+v1s]
 	addss	xmm0,xmm1
-	movss	DWORD PTR [stores],xmm0
+	movss	DWORD PTR [rip+stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -276,10 +275,10 @@ addss:
 mulss:
 	rdtscp
 	mov	edi,eax
-	movss	xmm0,DWORD PTR [v0s]
-	movss	xmm1,DWORD PTR [v1s]
+	movss	xmm0,DWORD PTR [rip+v0s]
+	movss	xmm1,DWORD PTR [rip+v1s]
 	mulss	xmm0,xmm1
-	movss	DWORD PTR [stores],xmm0
+	movss	DWORD PTR [rip+stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -287,10 +286,10 @@ mulss:
 divss:
 	rdtscp
 	mov	edi,eax
-	movss	xmm0,DWORD PTR [v0s]
-	movss	xmm1,DWORD PTR [v1s]
+	movss	xmm0,DWORD PTR [rip+v0s]
+	movss	xmm1,DWORD PTR [rip+v1s]
 	divss	xmm0,xmm1
-	movss	DWORD PTR [stores],xmm0
+	movss	DWORD PTR [rip+stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -298,10 +297,10 @@ divss:
 addps:
 	rdtscp
 	mov	edi,eax
-	movups	xmm0,XMMWORD PTR [v0]
-	movups	xmm1,XMMWORD PTR [v1]
+	movups	xmm0,XMMWORD PTR [rip+v0]
+	movups	xmm1,XMMWORD PTR [rip+v1]
 	addps	xmm0,xmm1
-	movups	XMMWORD PTR [store],xmm0
+	movups	XMMWORD PTR [rip+store],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -309,10 +308,10 @@ addps:
 mulps:
 	rdtscp
 	mov	edi,eax
-	movups	xmm0,XMMWORD PTR [v0s]
-	movups	xmm1,XMMWORD PTR [v1s]
+	movups	xmm0,XMMWORD PTR [rip+v0s]
+	movups	xmm1,XMMWORD PTR [rip+v1s]
 	mulps	xmm0,xmm1
-	movups	XMMWORD PTR [stores],xmm0
+	movups	XMMWORD PTR [rip+stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -320,10 +319,10 @@ mulps:
 divps:
 	rdtscp
 	mov	edi,eax
-	movups	xmm0,XMMWORD PTR [v0s]
-	movups	xmm1,XMMWORD PTR [v1s]
+	movups	xmm0,XMMWORD PTR [rip+v0s]
+	movups	xmm1,XMMWORD PTR [rip+v1s]
 	divps	xmm0,xmm1
-	movups	XMMWORD PTR [stores],xmm0
+	movups	XMMWORD PTR [rip+stores],xmm0
 	rdtscp
 	sub	eax,edi
 	jmp	end
@@ -331,8 +330,8 @@ divps:
 error:
 	mov	eax,-1
 end:
-	stmxcsr	DWORD PTR [ctrl]
-	and	DWORD PTR [ctrl],0x7FBF
-	ldmxcsr	DWORD PTR [ctrl]
+	stmxcsr	DWORD PTR [rsp-4]
+	and	DWORD PTR [rsp-4],0x7FBF
+	ldmxcsr	DWORD PTR [rsp-4]
 
 	ret
