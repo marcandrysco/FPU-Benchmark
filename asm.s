@@ -27,12 +27,14 @@ stores:	.single 0.0
 	.text
 
 cpuid:
+	push    rbx
 	mov	eax,edi
 	cpuid
 	mov	DWORD PTR [rsi+0],eax
 	mov	DWORD PTR [rsi+4],ebx
 	mov	DWORD PTR [rsi+8],ecx
 	mov	DWORD PTR [rsi+12],edx
+	pop     rbx
 	ret
 
 runtest:
