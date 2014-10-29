@@ -38,6 +38,7 @@ cpuid:
 	ret
 
 runtest:
+	push    rbx
 	movsd	QWORD PTR [rip+v0+0],xmm0
 	movsd	QWORD PTR [rip+v0+8],xmm0
 	movsd	QWORD PTR [rip+v1+0],xmm1
@@ -125,207 +126,245 @@ enddaz:
 	jmp	error
 
 noop:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 faddd:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	fld	QWORD PTR [rip+v0]
 	fld	QWORD PTR [rip+v1]
 	faddp	st(1)
 	fstp	QWORD PTR [rip+store]
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 fmuld:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	fld	QWORD PTR [rip+v0]
 	fld	QWORD PTR [rip+v1]
 	fmulp	st(1)
 	fstp	QWORD PTR [rip+store]
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 fdivd:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	fld	QWORD PTR [rip+v0]
 	fld	QWORD PTR [rip+v1]
 	fdivp	st(1)
 	fstp	QWORD PTR [rip+store]
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 fadds:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	fld	DWORD PTR [rip+v0s]
 	fld	DWORD PTR [rip+v1s]
 	faddp	st(1)
 	fstp	DWORD PTR [rip+stores]
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 fmuls:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	fld	DWORD PTR [rip+v0s]
 	fld	DWORD PTR [rip+v1s]
 	fmulp	st(1)
 	fstp	DWORD PTR [rip+stores]
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 fdivs:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	fld	DWORD PTR [rip+v0s]
 	fld	DWORD PTR [rip+v1s]
 	fdivp	st(1)
 	fstp	DWORD PTR [rip+stores]
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 addsd:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movsd	xmm0,QWORD PTR [rip+v0]
 	movsd	xmm1,QWORD PTR [rip+v1]
 	addsd	xmm0,xmm1
 	movsd	QWORD PTR [rip+store],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 mulsd:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movsd	xmm0,QWORD PTR [rip+v0]
 	movsd	xmm1,QWORD PTR [rip+v1]
 	mulsd	xmm0,xmm1
 	movsd	QWORD PTR [rip+store],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 divsd:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movsd	xmm0,QWORD PTR [rip+v0]
 	movsd	xmm1,QWORD PTR [rip+v1]
 	divsd	xmm0,xmm1
 	movsd	QWORD PTR [rip+store],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 addpd:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movupd	xmm0,XMMWORD PTR [rip+v0]
 	movupd	xmm1,XMMWORD PTR [rip+v1]
 	addpd	xmm0,xmm1
 	movupd	XMMWORD PTR [rip+store],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 mulpd:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movupd	xmm0,XMMWORD PTR [rip+v0]
 	movupd	xmm1,XMMWORD PTR [rip+v1]
 	mulpd	xmm0,xmm1
 	movupd	XMMWORD PTR [rip+store],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 divpd:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movupd	xmm0,XMMWORD PTR [rip+v0]
 	movupd	xmm1,XMMWORD PTR [rip+v1]
 	divpd	xmm0,xmm1
 	movupd	XMMWORD PTR [rip+store],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 addss:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movss	xmm0,DWORD PTR [rip+v0s]
 	movss	xmm1,DWORD PTR [rip+v1s]
 	addss	xmm0,xmm1
 	movss	DWORD PTR [rip+stores],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 mulss:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movss	xmm0,DWORD PTR [rip+v0s]
 	movss	xmm1,DWORD PTR [rip+v1s]
 	mulss	xmm0,xmm1
 	movss	DWORD PTR [rip+stores],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 divss:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movss	xmm0,DWORD PTR [rip+v0s]
 	movss	xmm1,DWORD PTR [rip+v1s]
 	divss	xmm0,xmm1
 	movss	DWORD PTR [rip+stores],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 addps:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movups	xmm0,XMMWORD PTR [rip+v0]
 	movups	xmm1,XMMWORD PTR [rip+v1]
 	addps	xmm0,xmm1
 	movups	XMMWORD PTR [rip+store],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 mulps:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movups	xmm0,XMMWORD PTR [rip+v0s]
 	movups	xmm1,XMMWORD PTR [rip+v1s]
 	mulps	xmm0,xmm1
 	movups	XMMWORD PTR [rip+stores],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
 divps:
-	rdtscp
+	cpuid
+	rdtsc
 	mov	edi,eax
 	movups	xmm0,XMMWORD PTR [rip+v0s]
 	movups	xmm1,XMMWORD PTR [rip+v1s]
 	divps	xmm0,xmm1
 	movups	XMMWORD PTR [rip+stores],xmm0
-	rdtscp
+	cpuid
+	rdtsc
 	sub	eax,edi
 	jmp	end
 
@@ -336,4 +375,5 @@ end:
 	and	DWORD PTR [rsp-4],0x7FBF
 	ldmxcsr	DWORD PTR [rsp-4]
 
+	pop     rbx
 	ret

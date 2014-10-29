@@ -83,6 +83,7 @@ int main()
 	while(*cpu == ' ')
 		cpu++;
 
+	setbuf(stdout,NULL);
 	for(r = 0; r < RUNS; r++) {
 		for(i = 0; i < FLAGS; i++) {
 			for(j = 0; j < OPS; j++) {
