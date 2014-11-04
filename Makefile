@@ -22,4 +22,7 @@ dist:
 run: all
 	./bench | tee run.log
 
-.PHONY: all dist run
+clean:
+	rm -f bench *.o
+
+.PHONY: all dist run clean

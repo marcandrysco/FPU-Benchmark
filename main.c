@@ -101,7 +101,7 @@ int main()
 				for(l = 0; l < VALS; l++) {
 					unsigned int total = 0;
 
-					qsort(res[i][j][k][l], RUNS - 2 * DROP, sizeof(unsigned int), sort);
+					qsort(res[i][j][k][l], RUNS, sizeof(unsigned int), sort);
 
 					for(r = DROP; r < RUNS - DROP; r++)
 						total += res[i][j][k][l][r];
