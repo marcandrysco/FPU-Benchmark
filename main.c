@@ -122,7 +122,7 @@ int main()
 					if(j == 0 && (k != 0 || l != 0))
 						continue;
 
-					printf("%s\t%s\t%s\t%s\t%s\t%u\t%.2f\n", cpu, flags[i], op[j], type[k], type[l], res[i][j][k][l][0], res[i][j][k][l][0] / (double)res[0][0][0][0][0]);
+					printf("%s\t%s\t%s\t%s\t%s\t%u\t%.4f\n", cpu, flags[i], op[j], type[k], type[l], res[i][j][k][l][0], res[i][j][k][l][0] / (double)res[0][0][0][0][0]);
 				}
 			}
 		}
